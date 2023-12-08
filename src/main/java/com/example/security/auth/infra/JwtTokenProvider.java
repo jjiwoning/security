@@ -45,4 +45,14 @@ public class JwtTokenProvider implements TokenProvider {
 			.signWith(new SecretKeySpec(secretKey.getBytes(), SignatureAlgorithm.HS256.getJcaName()))
 			.compact();
 	}
+
+	@Override
+	public String validateTokenAndGetSubject(String token) {
+		return Jwts.parserBuilder()
+			.setSigningKey(secretKey.getBytes())
+			.build()
+			.parseClaimsJws(token)
+			.getBody()
+			.getSubject();
+	}
 }
