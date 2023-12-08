@@ -15,3 +15,8 @@ spring:
     console:
       enabled: true
       path: /h2-console
+
+security:
+  secret-key: ahsdkuhqwfkjbqwjkfhgqwka
+  expiration-hours: 3
+  issuer: jiwon
