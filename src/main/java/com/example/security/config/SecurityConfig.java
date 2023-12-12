@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
+import com.example.security.auth.filter.JwtAuthenticationExceptionFilter;
 import com.example.security.auth.filter.JwtAuthenticationFilter;
 
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,8 @@ public class SecurityConfig {
 	private final static String[] ALLOWED_URLS = new String[] {"/", "/sign-up", "/sign-in"};
 
 	private final JwtAuthenticationFilter jwtAuthenticationFilter;
+
+	private final JwtAuthenticationExceptionFilter jwtAuthenticationExceptionFilter;
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
@@ -40,6 +43,7 @@ public class SecurityConfig {
 			.sessionManagement(sessionManagement ->
 				sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // not use session -> disable
 			.addFilterBefore(jwtAuthenticationFilter, BasicAuthenticationFilter.class)
+			.addFilterBefore(jwtAuthenticationExceptionFilter, JwtAuthenticationFilter.class)
 			.build();
 	}
 
